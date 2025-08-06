@@ -7,12 +7,6 @@ import Footer from "../Footer/Footer";
 import Sidebar from "../Sidebar/Sidebar";
 import { getCategories } from "../../features/categories/categoriesSlice";
 
-import { makeServer } from "../../mirage/server";
-
-if (process.env.NODE_ENV === "development") {
-  makeServer();
-}
-
 const App = () => {
   const dispatch = useDispatch();
 
