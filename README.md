@@ -1,5 +1,5 @@
 # Проект The Biggest Store
-Интернет-магазин на React и Redux
+Интернет-магазин на React и Redux Toolkit
 
 [Ссылка на мой реппозиторий](https://github.com/AskonaLi/the-biggest-store)
 
@@ -9,7 +9,7 @@
 - HTML
 - CSS
 - React.JS
-- Redux
+- Redux Toolkit
 - React Router
 - Create React App
 

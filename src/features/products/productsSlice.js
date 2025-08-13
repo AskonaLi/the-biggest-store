@@ -3,11 +3,11 @@ import axios from "axios";
 
 import { BASE_URL } from "../../utils/constants";
 
-export const getCategories = createAsyncThunk(
-  "categories/getCategories",
+export const getProducts = createAsyncThunk(
+  "products/getProducts",
   async (_, thunkAPI) => {
     try {
-      const res = await axios(`${BASE_URL}/categories`);
+      const res = await axios(`${BASE_URL}/products`);
       return res.data;
     } catch (err) {
       console.log(err);
@@ -16,25 +16,27 @@ export const getCategories = createAsyncThunk(
   }
 );
 
-const categoriesSlice = createSlice({
-  name: "categories",
+const productsSlice = createSlice({
+  name: "products",
   initialState: {
     list: [],
+    // filtered: [],
+    // related: [],
     isLoading: false,
   },
   extraReducers: (builder) => {
-    builder.addCase(getCategories.pending, (state) => {
+    builder.addCase(getProducts.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(getCategories.fulfilled, (state, { payload }) => {
+    builder.addCase(getProducts.fulfilled, (state, { payload }) => {
       state.list = payload;
       state.isLoading = false;
     });
-    builder.addCase(getCategories.rejected, (state) => {
+    builder.addCase(getProducts.rejected, (state) => {
       state.isLoading = false;
       console.log("Ошибка");
     });
   },
 });
 
-export default categoriesSlice.reducer;
+export default productsSlice.reducer;

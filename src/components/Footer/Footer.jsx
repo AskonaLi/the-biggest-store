@@ -11,8 +11,9 @@ const Footer = () => {
   return (
     <section className={styles.footer}>
       <div className={styles.logo}>
-        <Link to={ROUTES.HOME}></Link>
-        <img src={LOGO} alt="Stuff" />
+        <Link to={ROUTES.HOME}>
+          <img src={LOGO} alt="Stuff" />
+        </Link>
       </div>
 
       <nav className={styles.rights}>
@@ -27,7 +28,7 @@ const Footer = () => {
             <use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#youtube`} />
           </svg>
         </a>
-        
+
         <a href="https://github.com/AskonaLi" target="_blank" rel="noreferrer">
           <svg className="icon">
             <use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#facebook`} />

@@ -12,8 +12,9 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
-        <Link to={ROUTES.HOME}></Link>
-        <img src={LOGO} alt="Stuff" />
+        <Link to={ROUTES.HOME}>
+          <img src={LOGO} alt="Stuff" />
+        </Link>
       </div>
 
       <nav className={styles.info}>
