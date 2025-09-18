@@ -16,13 +16,46 @@ export const createUser = createAsyncThunk(
   }
 );
 
+export const loginUser = createAsyncThunk(
+  "users/loginUser",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(`${BASE_URL}/auth/login`, payload);
+
+      if (!res.data?.access_token) {
+        return rejectWithValue({ message: "Токен не получен" });
+      }
+
+      const login = await axios.get(`${BASE_URL}/auth/profile`, {
+        headers: {
+          Authorization: `Bearer ${res.data.access_token}`,
+        },
+      });
+
+      return login.data;
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        return rejectWithValue({
+          status: err.response.status,
+          message: err.response.data?.message || "Ошибка авторизации",
+        });
+      }
+      return rejectWithValue({ message: err.message });
+    }
+  }
+);
+
+const addCurrentUser = (state, { payload }) => {
+  state.currentUser = payload;
+};
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
     currentUser: null,
     cart: [],
     isLoading: false,
-    formType: "signUp",
+    formType: "signup",
     showForm: false,
   },
   reducers: {
@@ -42,15 +75,17 @@ const userSlice = createSlice({
     },
     toggleForm: (state, { payload }) => {
       state.showForm = payload;
-    }
+    },
+    toggleFormType: (state, { payload }) => {
+      state.formType = payload;
+    },
   },
   extraReducers: (builder) => {
     // builder.addCase(getCategories.pending, (state) => {
     //   state.isLoading = true;
     // });
-    builder.addCase(createUser.fulfilled, (state, { payload }) => {
-      state.currentUser = payload;
-    });
+    builder.addCase(createUser.fulfilled, addCurrentUser);
+    builder.addCase(loginUser.fulfilled, addCurrentUser);
     // builder.addCase(getCategories.rejected, (state) => {
     //   state.isLoading = false;
     //   console.log("Ошибка");
@@ -58,6 +93,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { addItemToCart, toggleForm } = userSlice.actions;
+export const { addItemToCart, toggleForm, toggleFormType } = userSlice.actions;
 
 export default userSlice.reducer;
