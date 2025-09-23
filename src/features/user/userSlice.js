@@ -21,7 +21,7 @@ export const loginUser = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       const res = await axios.post(`${BASE_URL}/auth/login`, payload);
-
+      console.log("Отправляемые данные:", payload);
       if (!res.data?.access_token) {
         return rejectWithValue({ message: "Токен не получен" });
       }
@@ -41,6 +41,19 @@ export const loginUser = createAsyncThunk(
         });
       }
       return rejectWithValue({ message: err.message });
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk(
+  "users/updateUser",
+  async (payload, thunkAPI) => {
+    try {
+      const res = await axios.put(`${BASE_URL}/users/${payload.id}`, payload);
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -81,15 +94,9 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // builder.addCase(getCategories.pending, (state) => {
-    //   state.isLoading = true;
-    // });
     builder.addCase(createUser.fulfilled, addCurrentUser);
     builder.addCase(loginUser.fulfilled, addCurrentUser);
-    // builder.addCase(getCategories.rejected, (state) => {
-    //   state.isLoading = false;
-    //   console.log("Ошибка");
-    // });
+    builder.addCase(updateUser.fulfilled, addCurrentUser);
   },
 });
 
