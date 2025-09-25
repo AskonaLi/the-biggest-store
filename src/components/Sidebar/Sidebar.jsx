@@ -18,7 +18,7 @@ const Sidebar = () => {
                 className={({ isActive }) =>
                   `${styles.link} ${isActive ? styles.active : ''}`
                 }
-                to={`/categories${id}`}
+                to={`/categories/${id}`}
               >
                 {name}
               </NavLink>
