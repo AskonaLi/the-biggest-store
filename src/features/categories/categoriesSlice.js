@@ -13,7 +13,7 @@ export const getCategories = createAsyncThunk(
       console.log(err);
       return thunkAPI.rejectWithValue(err);
     }
-  }
+  },
 );
 
 const categoriesSlice = createSlice({

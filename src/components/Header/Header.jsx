@@ -22,7 +22,7 @@ const Header = () => {
   const [values, setValues] = useState({ name: "Guest", avatar: AVATAR });
 
   const { data, isLoading } = useGetProductsQuery(
-    searchValue ? { title: searchValue } : skipToken
+    searchValue ? { title: searchValue } : skipToken,
   );
 
   useEffect(() => {
@@ -80,23 +80,23 @@ const Header = () => {
               {isLoading
                 ? "Loading"
                 : !Array.isArray(data) || !data.length
-                ? "No results"
-                : data.map(({ title, images, id }) => {
-                    return (
-                      <Link
-                        key={id}
-                        onClick={() => setSearchValue("")}
-                        className={styles.item}
-                        to={`/products/${id}`}
-                      >
-                        <div
-                          className={styles.image}
-                          style={{ backgroundImage: `url(${images[0]})` }}
-                        />
-                        <div className={styles.title}>{title}</div>
-                      </Link>
-                    );
-                  })}
+                  ? "No results"
+                  : data.map(({ title, images, id }) => {
+                      return (
+                        <Link
+                          key={id}
+                          onClick={() => setSearchValue("")}
+                          className={styles.item}
+                          to={`/products/${id}`}
+                        >
+                          <div
+                            className={styles.image}
+                            style={{ backgroundImage: `url(${images[0]})` }}
+                          />
+                          <div className={styles.title}>{title}</div>
+                        </Link>
+                      );
+                    })}
             </div>
           )}
         </form>

@@ -86,7 +86,12 @@ const UserSignupForm = ({ toggleCurrentFormType, closeForm }) => {
           />
         </div>
 
-        <div className={styles.link} onClick={() => toggleCurrentFormType('login')}>I already have an account</div>
+        <div
+          className={styles.link}
+          onClick={() => toggleCurrentFormType("login")}
+        >
+          I already have an account
+        </div>
         <button className={styles.submit} type="submit">
           Create an account
         </button>

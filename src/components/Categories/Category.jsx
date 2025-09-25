@@ -35,7 +35,7 @@ const Category = () => {
   useEffect(() => {
     if (!id) return;
 
-    setValues(defaultValues)
+    setValues(defaultValues);
     setItems([]);
     setIsEnd(false);
     setParams({ ...defaultParams, categoryId: id });

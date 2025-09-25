@@ -13,7 +13,7 @@ export const createUser = createAsyncThunk(
       console.log(err);
       return thunkAPI.rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const loginUser = createAsyncThunk(
@@ -42,7 +42,7 @@ export const loginUser = createAsyncThunk(
       }
       return rejectWithValue({ message: err.message });
     }
-  }
+  },
 );
 
 export const updateUser = createAsyncThunk(
@@ -55,7 +55,7 @@ export const updateUser = createAsyncThunk(
       console.log(err);
       return thunkAPI.rejectWithValue(err);
     }
-  }
+  },
 );
 
 const addCurrentUser = (state, { payload }) => {

@@ -22,7 +22,7 @@ const UserLoginForm = ({ toggleCurrentFormType, closeForm }) => {
     if (!isNotEmpty) return;
 
     dispatch(loginUser(values));
-    
+
     closeForm();
   };
 

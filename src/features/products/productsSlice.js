@@ -14,7 +14,7 @@ export const getProducts = createAsyncThunk(
       console.log(err);
       return thunkAPI.rejectWithValue(err);
     }
-  }
+  },
 );
 
 const productsSlice = createSlice({

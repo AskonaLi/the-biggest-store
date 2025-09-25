@@ -80,7 +80,8 @@ li {
   gap: 20px;
 }
 
-section, aside {
+section,
+aside {
   background: var(--dark);
   border-radius: 6px;
 }
