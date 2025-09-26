@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/the-biggest-store/static/css/main.2e157198.css",
-    "main.js": "/the-biggest-store/static/js/main.d58a0ae2.js",
+    "main.js": "/the-biggest-store/static/js/main.cf399de5.js",
     "static/media/computer-pc.png": "/the-biggest-store/static/media/computer-pc.5e56530d0ea3793fd73d.png",
     "static/media/banner.png": "/the-biggest-store/static/media/banner.60b57e7c22678c62bf30.png",
     "static/media/avatar-cat.jpg": "/the-biggest-store/static/media/avatar-cat.4bc3b938691acbda7100.jpg",
@@ -10,10 +10,10 @@
     "static/media/stuff-logo.svg": "/the-biggest-store/static/media/stuff-logo.2d0ddb44f42881e3d44f1facc3a06a99.svg",
     "index.html": "/the-biggest-store/index.html",
     "main.2e157198.css.map": "/the-biggest-store/static/css/main.2e157198.css.map",
-    "main.d58a0ae2.js.map": "/the-biggest-store/static/js/main.d58a0ae2.js.map"
+    "main.cf399de5.js.map": "/the-biggest-store/static/js/main.cf399de5.js.map"
   },
   "entrypoints": [
     "static/css/main.2e157198.css",
-    "static/js/main.d58a0ae2.js"
+    "static/js/main.cf399de5.js"
   ]
 }
