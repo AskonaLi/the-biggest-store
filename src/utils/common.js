@@ -11,3 +11,5 @@ export const buildUrl = (url, params) => {
 
   return urlWidthParams;
 };
+
+export const sumBy = (arr) => arr.reduce((prev, cur) => prev + cur, 0);
