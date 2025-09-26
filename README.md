@@ -2,8 +2,6 @@
 
 Интернет-магазин на React и Redux Toolkit
 
-
-
 [Ссылка на мой реппозиторий](https://github.com/AskonaLi/the-biggest-store)
 
 [Ссылка на макет](https://www.figma.com/design/rBKYkbdxaGSpySi9J4TMPX/Shop--Copy-?node-id=0-1&p=f&t=feySGBlzMxwhY7Ru-0)
