@@ -10,7 +10,6 @@ export const getCategories = createAsyncThunk(
       const res = await axios(`${BASE_URL}/categories`);
       return res.data;
     } catch (err) {
-      console.log(err);
       return thunkAPI.rejectWithValue(err);
     }
   },
@@ -32,7 +31,6 @@ const categoriesSlice = createSlice({
     });
     builder.addCase(getCategories.rejected, (state) => {
       state.isLoading = false;
-      console.log("Ошибка");
     });
   },
 });

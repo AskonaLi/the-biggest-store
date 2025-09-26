@@ -10,7 +10,6 @@ export const createUser = createAsyncThunk(
       const res = await axios.post(`${BASE_URL}/users`, payload);
       return res.data;
     } catch (err) {
-      console.log(err);
       return thunkAPI.rejectWithValue(err);
     }
   },
@@ -21,7 +20,6 @@ export const loginUser = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       const res = await axios.post(`${BASE_URL}/auth/login`, payload);
-      console.log("Отправляемые данные:", payload);
       if (!res.data?.access_token) {
         return rejectWithValue({ message: "Токен не получен" });
       }
@@ -52,7 +50,6 @@ export const updateUser = createAsyncThunk(
       const res = await axios.put(`${BASE_URL}/users/${payload.id}`, payload);
       return res.data;
     } catch (err) {
-      console.log(err);
       return thunkAPI.rejectWithValue(err);
     }
   },
