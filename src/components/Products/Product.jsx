@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { ROUTES } from "../../utils/routes";
 
 import styles from "../../styles/Product.module.css";
-import { addItemToCart } from "../../features/user/userSlice";
+import { addItemToCart, toggleFavorite } from "../../features/user/userSlice";
 
 const SIZES = [4, 4.5, 5];
 
 const Product = (item) => {
-  const { title, price, images, description } = item;
+  const { id, title, price, images, description } = item;
 
   const dispatch = useDispatch();
+
+  const { favorites } = useSelector(({ user }) => user);
 
   const [currentImage, setCurrentImage] = useState();
   const [currentSize, setCurrentSize] = useState();
@@ -24,6 +26,12 @@ const Product = (item) => {
 
   const addToCart = () => {
     dispatch(addItemToCart(item));
+  };
+
+  const isFavorite = favorites.some((fav) => fav.id === id);
+
+  const toggleFav = () => {
+    dispatch(toggleFavorite(item));
   };
 
   return (
@@ -77,7 +85,13 @@ const Product = (item) => {
           >
             Add to cart
           </button>
-          <button className={styles.favourite}>Add to favourites</button>
+          <button
+            onClick={toggleFav}
+            className={styles.add}
+            disabled={!currentSize}
+          >
+            {isFavorite ? "Remove from favorites" : "Add to favorites"}
+          </button>
         </div>
 
         <div className={styles.bottom}>

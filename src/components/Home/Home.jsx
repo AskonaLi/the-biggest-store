@@ -10,10 +10,8 @@ import Banner from "../Banner/Banner";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const {
-    products: { list, filtered },
-    categories,
-  } = useSelector((state) => state);
+  const { list, filtered } = useSelector((state) => state.products);
+  const categories = useSelector((state) => state.categories);
 
   useEffect(() => {
     if (!list.length) return;
