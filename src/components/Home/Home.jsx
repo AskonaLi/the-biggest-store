@@ -1,31 +1,41 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-import { filterByPrice } from "../../features/products/productsSlice";
+import React, { useMemo } from "react";
+import { useSelector } from "react-redux";
 
 import Poster from "../Poster/Poster";
 import Products from "../Products/Products";
 import Categories from "../Categories/Categories";
 import Banner from "../Banner/Banner";
+import { useGetProductsQuery } from "../../features/api/apiSlice";
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const { list, filtered } = useSelector((state) => state.products);
   const categories = useSelector((state) => state.categories);
 
-  useEffect(() => {
-    if (!list.length) return;
+  const { data = [], isLoading, isError } = useGetProductsQuery({
+    limit: 50,
+    offset: 0,
+  });
 
-    dispatch(filterByPrice(100));
-  }, [dispatch, list.length]);
+  const trending = useMemo(() => data.slice(0, 5), [data]);
+  const lessThan100 = useMemo(
+    () => data.filter(({ price }) => price < 100).slice(0, 5),
+    [data],
+  );
 
   return (
     <>
       <Poster />
-      <Products products={list} amount={5} title="Trending" />
+      {isLoading ? (
+        <section className="preloader">Loading...</section>
+      ) : isError ? (
+        <section className="preloader">Failed to load products</section>
+      ) : (
+        <Products products={trending} amount={5} title="Trending" />
+      )}
       <Categories products={categories.list} amount={5} title="Worth seeing" />
       <Banner />
-      <Products products={filtered} amount={5} title="Less than 100$" />
+      {isLoading ? null : isError ? null : (
+        <Products products={lessThan100} amount={5} title="Less than 100$" />
+      )}
     </>
   );
 };

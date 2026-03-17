@@ -7,7 +7,6 @@ import Footer from "../Footer/Footer";
 import Sidebar from "../Sidebar/Sidebar";
 
 import { getCategories } from "../../features/categories/categoriesSlice";
-import { getProducts } from "../../features/products/productsSlice";
 
 import UserForm from "../User/UserForm";
 
@@ -16,7 +15,6 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getCategories());
-    dispatch(getProducts());
   }, [dispatch]);
 
   return (
