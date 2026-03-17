@@ -1,66 +1,73 @@
 # Проект The Biggest Store
 
-Интернет-магазин на React и Redux Toolkit
+Интернет‑магазин на **React** и **Redux Toolkit** (Create React App).
 
-[Ссылка на мой реппозиторий](https://github.com/AskonaLi/the-biggest-store)
+- **Репозиторий**: `https://github.com/AskonaLi/the-biggest-store`
+- **Макет (Figma)**: `https://www.figma.com/design/rBKYkbdxaGSpySi9J4TMPX/Shop--Copy-?node-id=0-1&p=f&t=feySGBlzMxwhY7Ru-0`
+- **Демо (GitHub Pages)**: `https://askonali.github.io/the-biggest-store`
 
-[Ссылка на макет](https://www.figma.com/design/rBKYkbdxaGSpySi9J4TMPX/Shop--Copy-?node-id=0-1&p=f&t=feySGBlzMxwhY7Ru-0)
+## Технологии
 
-## Технологии:
-
-- HTML
-- CSS
-- React.JS
+- React
 - Redux Toolkit
 - React Router
-- Create React App
+- Axios
+- Prettier
 
-## Основные Команды
+## Требования
 
-### Запуск сервера для разработки
+- Node.js + npm
+
+## Установка и запуск
+
+Установить зависимости:
 
 ```shell
-npm run start
+npm install
 ```
 
-### Сборка проекта
+Запуск в режиме разработки:
+
+```shell
+npm start
+```
+
+Сборка:
 
 ```shell
 npm run build
 ```
 
-### Очистка папки build
+## Полезные команды
+
+Очистка `build`:
 
 ```shell
 npm run clean
 ```
 
-### Проверка форматирования кода
+Проверка форматирования:
 
 ```shell
 npm run format:check
 ```
 
-### Форматирование, унификация кода
+Автоформатирование:
 
 ```shell
 npm run format
 ```
 
-### Предеплой проекта
+## Деплой (GitHub Pages)
+
+Сборка перед деплоем:
 
 ```shell
 npm run predeploy
 ```
 
-### Деплой проекта
+Деплой в `gh-pages`:
 
 ```shell
 npm run deploy
-```
-
-### Постдеплой проекта (уведомление о успешном деплое)
-
-```shell
-npm run postdeploy
 ```
