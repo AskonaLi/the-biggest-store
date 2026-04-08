@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../App/hooks";
 
 import { ROUTES } from "../../utils/routes";
 
 import styles from "../../styles/Product.module.css";
 import { addItemToCart, toggleFavorite } from "../../features/user/userSlice";
+import { CartItem } from "../../types/cart.type";
 
-const SIZES = [4, 4.5, 5];
+const SIZES: number[] = [4, 4.5, 5];
 
-const Product = (item) => {
+const Product = (item: CartItem) => {
   const { id, title, price, images, description } = item;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { favorites } = useSelector(({ user }) => user);
+  const { favorites } = useAppSelector(({ user }) => user);
 
-  const [currentImage, setCurrentImage] = useState();
-  const [currentSize, setCurrentSize] = useState();
+  const [currentImage, setCurrentImage] = useState<string | undefined>(undefined);
+  const [currentSize, setCurrentSize] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     if (!images.length) return;
@@ -28,10 +29,10 @@ const Product = (item) => {
     dispatch(addItemToCart(item));
   };
 
-  const isFavorite = favorites.some((fav) => fav.id === id);
+  const isFavorite = favorites.some((fav: CartItem) => fav.id === id);
 
   const toggleFav = () => {
-    dispatch(toggleFavorite(item));
+    dispatch(toggleFavorite(item as CartItem));
   };
 
   return (

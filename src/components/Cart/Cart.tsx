@@ -1,5 +1,5 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../App/hooks";
+
 import {
   addItemToCart,
   removeItemFromCart,
@@ -7,16 +7,18 @@ import {
 
 import styles from "../../styles/Cart.module.css";
 import { sumBy } from "../../utils/common";
+import { CartItem } from "../../types/cart.type";
+
 
 const Cart = () => {
-  const dispatch = useDispatch();
-  const { cart } = useSelector(({ user }) => user);
+  const dispatch = useAppDispatch();
+  const cart = useAppSelector((state) => state.user.cart as CartItem[]);
 
-  const changeQuantity = (item, quantity) => {
+  const changeQuantity = (item: CartItem, quantity: number) => {
     dispatch(addItemToCart({ ...item, quantity }));
   };
 
-  const removeItem = (id) => {
+  const removeItem = (id: CartItem["id"]) => {
     dispatch(removeItemFromCart(id));
   };
 
@@ -31,11 +33,12 @@ const Cart = () => {
           <div className={styles.list}>
             {cart.map((item) => {
               const { title, category, images, price, id, quantity } = item;
+              const thumb = images[0] ?? "";
               return (
                 <div className={styles.item} key={id}>
                   <div
                     className={styles.image}
-                    style={{ backgroundImage: `url(${images[0]})` }}
+                    style={{ backgroundImage: `url(${thumb})` }}
                   />
                   <div className={styles.info}>
                     <h3 className={styles.name}>{title}</h3>
@@ -91,10 +94,15 @@ const Cart = () => {
           <div className={styles.actions}>
             <div className={styles.total}>TOTAL PRICE: </div>
             <span>
-              {sumBy(cart.map(({ quantity, price }) => quantity * price))}$
+              {sumBy(
+                cart.map(({ quantity, price }) => quantity * price),
+              )}
+              $
             </span>
 
-            <button className={styles.proceed}>Proceed to checkout</button>
+            <button className={styles.proceed}>
+              Proceed to checkout
+            </button>
           </div>
         </>
       )}

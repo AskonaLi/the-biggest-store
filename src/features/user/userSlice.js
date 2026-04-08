@@ -100,7 +100,7 @@ const userSlice = createSlice({
           (item) => item.id !== payload.id,
         );
       } else {
-        state.favorites.push(payload);
+        state.faidlevorites.push(payload);
       }
     },
   },

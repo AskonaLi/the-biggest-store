@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
+import { useAppDispatch } from "./hooks";
 
 import AppRoutes from "../../Routes/Routes";
 import Header from "../Header/Header";
@@ -10,8 +11,8 @@ import { getCategories } from "../../features/categories/categoriesSlice";
 
 import UserForm from "../User/UserForm";
 
-const App = () => {
-  const dispatch = useDispatch();
+const App: React.FC = () => {
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getCategories());

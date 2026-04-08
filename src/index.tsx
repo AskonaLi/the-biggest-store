@@ -14,7 +14,7 @@ if (redirect) {
   window.history.replaceState(null, "", redirect);
 }
 
-createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById("root") as HTMLElement).render(
   <Provider store={store}>
     <BrowserRouter basename="/the-biggest-store">
       <App />

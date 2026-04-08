@@ -1,0 +1,49 @@
+{
+  // Документация: https://www.typescriptlang.org/tsconfig/
+  // CRA подмешивает/проверяет опции при `npm start`: см. node_modules/react-scripts/scripts/utils/verifyTypeScriptSetup.js
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true
+
+    // --- По желанию: строже проверки ---
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noImplicitReturns": true,
+    // "noImplicitOverride": true,
+    // "noPropertyAccessFromIndexSignature": true,
+
+    // --- Модули / стиль импортов (осторожно с CRA + Babel) ---
+    // "verbatimModuleSyntax": true,
+
+    // --- Типы окружения: раскомментируйте при необходимости ---
+    // "types": ["node"],  // для скриптов/конфигов; в браузерном src обычно не нужно
+    // "types": ["jest"],  // если глобали jest не подхватываются
+
+    // --- Алиасы путей: в чистом CRA не поддерживаются без craco/eject/vite ---
+    // "baseUrl": "src",
+    // "paths": { "@/*": ["./*"] }
+
+    // --- Редко нужно в приложении CRA (сборку делает webpack) ---
+    // "sourceMap": true,
+    // "inlineSources": true,
+    // "declaration": true,
+    // "declarationMap": true
+  },
+  "include": ["src"]
+  // "exclude": ["**/*.spec.ts", "**/*.test.ts", "**/*.test.tsx"]
+}
