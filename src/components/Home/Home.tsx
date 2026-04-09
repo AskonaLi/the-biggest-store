@@ -1,14 +1,14 @@
 import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
 
 import Poster from "../Poster/Poster";
 import Products from "../Products/Products";
 import Categories from "../Categories/Categories";
 import Banner from "../Banner/Banner";
 import { useGetProductsQuery } from "../../features/api/apiSlice";
+import { useAppSelector } from "../App/hooks";
 
 const Home = () => {
-  const categories = useSelector((state) => state.categories);
+  const categories = useAppSelector((state) => state.categories);
 
   const { data = [], isLoading, isError } = useGetProductsQuery({
     limit: 50,
@@ -17,7 +17,7 @@ const Home = () => {
 
   const trending = useMemo(() => data.slice(0, 5), [data]);
   const lessThan100 = useMemo(
-    () => data.filter(({ price }) => price < 100).slice(0, 5),
+    () => data.filter(({ price }: { price: number }) => price < 100).slice(0, 5),
     [data],
   );
 

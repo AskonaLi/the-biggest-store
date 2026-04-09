@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 import { updateUser } from "../../features/user/userSlice";
 
 import styles from "../../styles/Profile.module.css";
+import { useAppDispatch, useAppSelector } from "../App/hooks";
 
 const Profile = () => {
-  const dispatch = useDispatch();
-  const { currentUser } = useSelector(({ user }) => user);
+  const dispatch = useAppDispatch();
+  const { currentUser } = useAppSelector(({ user }) => user);
 
   const [values, setValues] = useState({
     name: "",

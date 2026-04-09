@@ -1,16 +1,17 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { toggleFavorite } from "../../features/user/userSlice";
+import type { CartItem } from "../../types/cart.type";
 
 import cartStyles from "../../styles/Cart.module.css";
 import favStyles from "../../styles/Favorites.module.css";
+import { useAppDispatch, useAppSelector } from "../App/hooks";
 
 const Favorites = () => {
-  const dispatch = useDispatch();
-  const { favorites } = useSelector(({ user }) => user);
+  const dispatch = useAppDispatch();
+  const favorites = useAppSelector((state) => state.user.favorites);
 
-  const removeFavorite = (id) => {
-    dispatch(toggleFavorite({ id }));
+  const removeFavorite = (item: CartItem) => {
+    dispatch(toggleFavorite(item));
   };
 
   return (
@@ -21,20 +22,20 @@ const Favorites = () => {
         <div className={cartStyles.empty}>No favorites yet</div>
       ) : (
         <div className={cartStyles.list}>
-          {favorites.map(({ id, title, category, images, price }) => (
-            <div className={favStyles.item} key={id}>
+          {favorites.map((item) => (
+            <div className={favStyles.item} key={item.id}>
               <div
                 className={cartStyles.image}
-                style={{ backgroundImage: `url(${images[0]})` }}
+                style={{ backgroundImage: `url(${item.images[0]})` }}
               />
               <div className={cartStyles.info}>
-                <h3 className={cartStyles.name}>{title}</h3>
-                <div className={cartStyles.category}>{category.name}</div>
+                <h3 className={cartStyles.name}>{item.title}</h3>
+                <div className={cartStyles.category}>{item.category.name}</div>
               </div>
-              <div className={cartStyles.price}>{price}$</div>
+              <div className={cartStyles.price}>{item.price}$</div>
               <div
                 className={cartStyles.close}
-                onClick={() => removeFavorite(id)}
+                onClick={() => removeFavorite(item)}
               >
                 <svg className="icon">
                   <use

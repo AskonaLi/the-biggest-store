@@ -12,7 +12,7 @@ import { CartItem } from "../../types/cart.type";
 
 const Cart = () => {
   const dispatch = useAppDispatch();
-  const cart = useAppSelector((state) => state.user.cart as CartItem[]);
+  const cart = useAppSelector((state) => state.user.cart);
 
   const changeQuantity = (item: CartItem, quantity: number) => {
     dispatch(addItemToCart({ ...item, quantity }));

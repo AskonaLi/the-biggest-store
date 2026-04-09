@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 
 import styles from "../../styles/Header.module.css";
 import { ROUTES } from "../../utils/routes";
@@ -10,14 +9,15 @@ import AVATAR from "../../images/avatar-cat.jpg";
 import { toggleForm } from "../../features/user/userSlice";
 import { useGetProductsQuery } from "../../features/api/apiSlice";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { useAppDispatch, useAppSelector } from "../App/hooks";
 
 const Header = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useState("");
 
-  const { currentUser, cart, favorites } = useSelector(({ user }) => user);
+  const { currentUser, cart, favorites } = useAppSelector(({ user }) => user);
 
   const [values, setValues] = useState({ name: "Guest", avatar: AVATAR });
 
