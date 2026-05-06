@@ -8,6 +8,7 @@ import {
   UserState,
 } from "../../types/user.type";
 import type { CartItem } from "../../types/cart.type";
+import type { ProductListItem } from "../../types/products.type";
 
 import { BASE_URL } from "../../utils/constants";
 
@@ -134,7 +135,7 @@ const userSlice = createSlice({
       const { payload } = action;
       state.formType = payload;
     },
-    toggleFavorite: (state, action: PayloadAction<CartItem>) => {
+    toggleFavorite: (state, action: PayloadAction<ProductListItem>) => {
       const { payload } = action;
       const exists = state.favorites.find((item) => item.id === payload.id);
       if (exists) {

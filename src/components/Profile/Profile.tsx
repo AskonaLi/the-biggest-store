@@ -5,11 +5,18 @@ import { updateUser } from "../../features/user/userSlice";
 import styles from "../../styles/Profile.module.css";
 import { useAppDispatch, useAppSelector } from "../App/hooks";
 
+type ProfileFormValues = {
+  name: string;
+  email: string;
+  password: string;
+  avatar: string;
+};
+
 const Profile = () => {
   const dispatch = useAppDispatch();
   const { currentUser } = useAppSelector(({ user }) => user);
 
-  const [values, setValues] = useState({
+  const [values, setValues] = useState<ProfileFormValues>({
     name: "",
     email: "",
     password: "",
@@ -22,17 +29,19 @@ const Profile = () => {
     setValues(currentUser);
   }, [currentUser]);
 
-  const handleChange = ({ target: { value, name } }) => {
-    setValues({ ...values, [name]: value });
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const { name, value } = e.target;
+    setValues((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    if (!currentUser) return;
 
     const isNotEmpty = Object.values(values).every((val) => val);
     if (!isNotEmpty) return;
 
-    dispatch(updateUser(values));
+    dispatch(updateUser({ ...currentUser, ...values }));
   };
 
   return (

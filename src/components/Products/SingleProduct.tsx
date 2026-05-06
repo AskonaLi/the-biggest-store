@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { useGetProductQuery, useGetProductsQuery } from "../../features/api/apiSlice";
@@ -10,15 +10,20 @@ import Products from "./Products";
 import { shuffle } from "../../utils/common";
 
 const SingleProduct = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
 
-  const { data, isLoading, isFetching, isSuccess } = useGetProductQuery({ id });
+  const productId = useMemo(() => (id ? Number(id) : undefined), [id]);
+
+  const { data, isLoading, isFetching, isSuccess } = useGetProductQuery(
+    productId ? ({ id: productId } as const) : skipToken,
+  );
+  const product = data;
 
   const { data: relatedData = [], isLoading: isRelatedLoading, isError: isRelatedError } =
     useGetProductsQuery(
-      data?.category?.id
-        ? { categoryId: data.category.id, limit: 20, offset: 0 }
+      product?.category?.id
+        ? { categoryId: product.category.id, limit: 20, offset: 0 }
         : skipToken,
     );
 
@@ -26,19 +31,18 @@ const SingleProduct = () => {
     if (!isFetching && !isLoading && !isSuccess) {
       navigate(ROUTES.HOME);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading, isFetching, isSuccess]);
+  }, [isLoading, isFetching, isSuccess, navigate]);
 
   const related =
-    !data || !Array.isArray(relatedData)
+    !product || !Array.isArray(relatedData)
       ? []
-      : shuffle(relatedData.filter((p) => p.id !== data.id)).slice(0, 5);
+      : shuffle(relatedData.filter((p) => p.id !== product.id)).slice(0, 5);
 
-  return !data ? (
+  return !product ? (
     <section className="preloader">Loading...</section>
   ) : (
     <>
-      <Product {...data} />
+      <Product {...product} />
       {isRelatedLoading ? null : isRelatedError ? null : (
         <Products products={related} amount={5} title="Related products" />
       )}

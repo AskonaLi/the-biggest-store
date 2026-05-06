@@ -1,34 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
+import { skipToken } from "@reduxjs/toolkit/query";
 
 import styles from "../../styles/Header.module.css";
 import { ROUTES } from "../../utils/routes";
 
 import LOGO from "../../images/stuff-logo.svg";
 import AVATAR from "../../images/avatar-cat.jpg";
+
 import { toggleForm } from "../../features/user/userSlice";
 import { useGetProductsQuery } from "../../features/api/apiSlice";
-import { skipToken } from "@reduxjs/toolkit/query";
 import { useAppDispatch, useAppSelector } from "../App/hooks";
+import type { ProductListItem } from "../../types/products.type";
+
+type HeaderUserView = {
+  name: string;
+  avatar: string;
+};
+
+const DEFAULT_USER: HeaderUserView = { name: "Guest", avatar: AVATAR };
 
 const Header = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState<string>("");
 
   const { currentUser, cart, favorites } = useAppSelector(({ user }) => user);
 
-  const [values, setValues] = useState({ name: "Guest", avatar: AVATAR });
+  const [userView, setUserView] = useState<HeaderUserView>(DEFAULT_USER);
 
   const { data, isLoading } = useGetProductsQuery(
-    searchValue ? { title: searchValue } : skipToken,
+    searchValue ? ({ title: searchValue } as const) : skipToken,
+  );
+
+  const searchResults = useMemo(
+    () => (Array.isArray(data) ? (data as ProductListItem[]) : []),
+    [data],
   );
 
   useEffect(() => {
     if (!currentUser) return;
-
-    setValues(currentUser);
+    setUserView({ name: currentUser.name, avatar: currentUser.avatar });
   }, [currentUser]);
 
   const handleClick = () => {
@@ -36,8 +50,8 @@ const Header = () => {
     else navigate(ROUTES.PROFILE);
   };
 
-  const handleSearch = ({ target: { value } }) => {
-    setSearchValue(value);
+  const handleSearch: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    setSearchValue(e.target.value);
   };
 
   return (
@@ -52,9 +66,9 @@ const Header = () => {
         <div className={styles.user} onClick={handleClick}>
           <div
             className={styles.avatar}
-            style={{ backgroundImage: `url(${values.avatar})` }}
+            style={{ backgroundImage: `url(${userView.avatar})` }}
           />
-          <div className={styles.username}>{values.name}</div>
+          <div className={styles.username}>{userView.name}</div>
         </div>
 
         <form className={styles.form}>
@@ -79,24 +93,22 @@ const Header = () => {
             <div className={styles.box}>
               {isLoading
                 ? "Loading"
-                : !Array.isArray(data) || !data.length
+                : !searchResults.length
                   ? "No results"
-                  : data.map(({ title, images, id }) => {
-                      return (
-                        <Link
-                          key={id}
-                          onClick={() => setSearchValue("")}
-                          className={styles.item}
-                          to={`/products/${id}`}
-                        >
-                          <div
-                            className={styles.image}
-                            style={{ backgroundImage: `url(${images[0]})` }}
-                          />
-                          <div className={styles.title}>{title}</div>
-                        </Link>
-                      );
-                    })}
+                  : searchResults.map(({ title, images, id }) => (
+                      <Link
+                        key={id}
+                        onClick={() => setSearchValue("")}
+                        className={styles.item}
+                        to={`/products/${id}`}
+                      >
+                        <div
+                          className={styles.image}
+                          style={{ backgroundImage: `url(${images[0]})` }}
+                        />
+                        <div className={styles.title}>{title}</div>
+                      </Link>
+                    ))}
             </div>
           )}
         </form>
@@ -114,9 +126,7 @@ const Header = () => {
             <svg className={styles["icon-cart"]}>
               <use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#bag`} />
             </svg>
-            {!!cart.length && (
-              <span className={styles.count}>{cart.length}</span>
-            )}
+            {!!cart.length && <span className={styles.count}>{cart.length}</span>}
           </Link>
         </div>
       </nav>
@@ -125,3 +135,4 @@ const Header = () => {
 };
 
 export default Header;
+

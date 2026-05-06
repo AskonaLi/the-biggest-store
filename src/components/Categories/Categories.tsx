@@ -1,9 +1,16 @@
-import React from "react";
 import styles from "../../styles/Categories.module.css";
 import { Link } from "react-router-dom";
 
-const Categories = ({ title, products = [], amount }) => {
-  const list = products.filter((_, i) => i < amount);
+import { Category } from "../../types/category.type";
+
+type CategoriesProps = {
+  title: string;
+  categories?: Category[];
+  amount: number;
+};
+
+const Categories = ({ title, categories = [], amount }: CategoriesProps) => {
+  const list = amount > 0 ? categories.slice(0, amount) : [];
 
   return (
     <section className={styles.section}>
@@ -14,7 +21,9 @@ const Categories = ({ title, products = [], amount }) => {
           <Link to={`/categories/${id}`} key={id} className={styles.item}>
             <div
               className={styles.image}
-              style={{ backgroundImage: `url(${image})` }}
+              style={
+                image ? { backgroundImage: `url(${image})` } : undefined
+              }
             />
             <h3 className={styles.title}>{name}</h3>
           </Link>

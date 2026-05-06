@@ -1,6 +1,6 @@
 import React from "react";
 import { toggleFavorite } from "../../features/user/userSlice";
-import type { CartItem } from "../../types/cart.type";
+import type { ProductListItem } from "../../types/products.type";
 
 import cartStyles from "../../styles/Cart.module.css";
 import favStyles from "../../styles/Favorites.module.css";
@@ -10,7 +10,7 @@ const Favorites = () => {
   const dispatch = useAppDispatch();
   const favorites = useAppSelector((state) => state.user.favorites);
 
-  const removeFavorite = (item: CartItem) => {
+  const removeFavorite = (item: ProductListItem) => {
     dispatch(toggleFavorite(item));
   };
 

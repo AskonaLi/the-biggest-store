@@ -31,7 +31,7 @@ const Home = () => {
       ) : (
         <Products products={trending} amount={5} title="Trending" />
       )}
-      <Categories products={categories.list} amount={5} title="Worth seeing" />
+      <Categories categories={categories.list} amount={5} title="Worth seeing" />
       <Banner />
       {isLoading ? null : isError ? null : (
         <Products products={lessThan100} amount={5} title="Less than 100$" />

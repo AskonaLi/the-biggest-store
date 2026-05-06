@@ -2,10 +2,10 @@ import React from "react";
 
 import styles from "../../styles/Sidebar.module.css";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../App/hooks";
 
 const Sidebar = () => {
-  const { list } = useSelector(({ categories }) => categories);
+  const { list } = useAppSelector(({ categories }) => categories);
 
   return (
     <aside className={styles.sidebar}>

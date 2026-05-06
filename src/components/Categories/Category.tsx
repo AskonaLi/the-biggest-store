@@ -1,69 +1,95 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { useGetProductsQuery } from "../../features/api/apiSlice";
 
 import styles from "../../styles/Category.module.css";
 import Products from "../Products/Products";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../App/hooks";
+import type { Category as CategoryType } from "../../types/category.type";
+import type { ProductListItem } from "../../types/products.type";
+
+type FilterValues = {
+  title: string;
+  price_min: number;
+  price_max: number;
+};
+
+type ProductsQueryParams = FilterValues & {
+  categoryId?: number;
+  limit: number;
+  offset: number;
+};
+
+const DEFAULT_VALUES: FilterValues = {
+  title: "",
+  price_min: 0,
+  price_max: 0,
+};
 
 const Category = () => {
-  const { id } = useParams();
-  const { list } = useSelector(({ categories }) => categories);
+  const { id } = useParams<{ id?: string }>();
+  const { list } = useAppSelector(({ categories }) => categories);
 
-  const defaultValues = {
-    title: "",
-    price_min: 0,
-    price_max: 0,
-  };
+  const categoryId = useMemo(() => (id ? Number(id) : undefined), [id]);
 
-  const defaultParams = {
-    categoryId: id,
-    limit: 5,
-    offset: 0,
-    ...defaultValues,
-  };
+  const defaultParams = useMemo<ProductsQueryParams>(
+    () => ({
+      ...(categoryId ? { categoryId } : {}),
+      limit: 5,
+      offset: 0,
+      ...DEFAULT_VALUES,
+    }),
+    [categoryId],
+  );
 
   const [isEnd, setIsEnd] = useState(false);
-  const [cat, setCat] = useState(null);
-  const [items, setItems] = useState([]);
-  const [values, setValues] = useState(defaultValues);
+  const [cat, setCat] = useState<CategoryType | null>(null);
+  const [items, setItems] = useState<ProductListItem[]>([]);
+  const [values, setValues] = useState<FilterValues>(DEFAULT_VALUES);
   const [params, setParams] = useState(defaultParams);
 
-  const { data = [], isLoading, isSuccess } = useGetProductsQuery(params);
+  const { data, isLoading, isSuccess } = useGetProductsQuery(params);
+  const products = useMemo(() => (data ?? []) as ProductListItem[], [data]);
 
   useEffect(() => {
-    if (!id) return;
+    if (!categoryId) return;
 
-    setValues(defaultValues);
+    setValues(DEFAULT_VALUES);
     setItems([]);
     setIsEnd(false);
-    setParams({ ...defaultParams, categoryId: id });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+    setParams(defaultParams);
+  }, [categoryId, defaultParams]);
 
   useEffect(() => {
     if (isLoading) return;
 
-    if (!data.length) return setIsEnd(true);
+    if (!products.length) return setIsEnd(true);
 
-    setItems((_items) => [..._items, ...data]);
-  }, [data, isLoading]);
+    setItems((prev) => [...prev, ...products]);
+  }, [products, isLoading]);
 
   useEffect(() => {
-    if (!id || !list.length) return;
+    if (!categoryId || !list.length) return;
 
-    const category = list.find((item) => item.id === id * 1);
+    const category = list.find((item) => item.id === categoryId) ?? null;
 
     setCat(category);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [list, id]);
+  }, [list, categoryId]);
 
-  const handleChange = ({ target: { value, name } }) => {
-    setValues({ ...values, [name]: value });
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const { value, name } = e.target;
+
+    setValues((prev) => {
+      if (name === "price_min" || name === "price_max") {
+        return { ...prev, [name]: Number(value) };
+      }
+
+      return { ...prev, [name]: value };
+    });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
     setItems([]);
@@ -72,7 +98,7 @@ const Category = () => {
   };
 
   const handleReset = () => {
-    setValues(defaultValues);
+    setValues(DEFAULT_VALUES);
     setParams(defaultParams);
     setIsEnd(false);
   };

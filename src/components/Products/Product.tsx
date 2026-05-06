@@ -6,11 +6,15 @@ import { ROUTES } from "../../utils/routes";
 
 import styles from "../../styles/Product.module.css";
 import { addItemToCart, toggleFavorite } from "../../features/user/userSlice";
-import { CartItem } from "../../types/cart.type";
+import type { ProductListItem } from "../../types/products.type";
 
 const SIZES: number[] = [4, 4.5, 5];
 
-const Product = (item: CartItem) => {
+type ProductProps = ProductListItem & {
+  description?: string;
+};
+
+const Product = (item: ProductProps) => {
   const { id, title, price, images, description } = item;
 
   const dispatch = useAppDispatch();
@@ -29,10 +33,10 @@ const Product = (item: CartItem) => {
     dispatch(addItemToCart(item));
   };
 
-  const isFavorite = favorites.some((fav: CartItem) => fav.id === id);
+  const isFavorite = favorites.some((fav) => fav.id === id);
 
   const toggleFav = () => {
-    dispatch(toggleFavorite(item as CartItem));
+    dispatch(toggleFavorite(item));
   };
 
   return (
